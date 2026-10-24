@@ -4,7 +4,13 @@ import '../theme/tokens.dart';
 
 /// Экран приложения в рамке телефона. Скриншоты — 1080×2400, поэтому пропорция 9:20.
 class PhoneFrame extends StatelessWidget {
-  const PhoneFrame({super.key, required this.asset, required this.label, this.width = 200, this.overlay});
+  const PhoneFrame({
+    super.key,
+    required this.asset,
+    required this.label,
+    this.width = 200,
+    this.overlay,
+  });
 
   final String asset;
 
@@ -36,7 +42,13 @@ class PhoneFrame extends StatelessWidget {
             child: Stack(
               fit: StackFit.expand,
               children: [
-                Image.asset(asset, cacheWidth: (width * 3).ceil(), fit: BoxFit.cover, alignment: Alignment.topCenter, excludeFromSemantics: true),
+                Image.asset(
+                  asset,
+                  cacheWidth: (width * 3).ceil(),
+                  fit: BoxFit.cover,
+                  alignment: Alignment.topCenter,
+                  excludeFromSemantics: true,
+                ),
                 ?overlay,
               ],
             ),

@@ -13,7 +13,10 @@ class Band extends StatelessWidget {
   Widget build(BuildContext context) => Center(
     child: ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: K.maxWidth),
-      child: Padding(padding: const EdgeInsets.symmetric(horizontal: K.gutter), child: child),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: K.gutter),
+        child: child,
+      ),
     ),
   );
 }
@@ -53,10 +56,16 @@ class PageBlock extends StatelessWidget {
     return KeyedSubtree(
       key: anchor,
       child: DecoratedBox(
-        decoration: BoxDecoration(color: color, border: topLine ? const Border(top: BorderSide(color: K.line)) : null),
+        decoration: BoxDecoration(
+          color: color,
+          border: topLine ? const Border(top: BorderSide(color: K.line)) : null,
+        ),
         child: Stack(
           children: [
-            if (grid) const Positioned.fill(child: CustomPaint(painter: _GridPainter())),
+            if (grid)
+              const Positioned.fill(
+                child: CustomPaint(painter: _GridPainter()),
+              ),
             Band(
               child: Padding(
                 padding: EdgeInsets.only(top: 80, bottom: last ? 96 : 136),
@@ -64,14 +73,17 @@ class PageBlock extends StatelessWidget {
               ),
             ),
             if (!last)
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 40,
-              child: Center(
-                child: NextButton(label: S(lang).next, onTap: () => scrollToKey(context, target)),
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 40,
+                child: Center(
+                  child: NextButton(
+                    label: S(lang).next,
+                    onTap: () => scrollToKey(context, target),
+                  ),
+                ),
               ),
-            ),
           ],
         ),
       ),
@@ -131,7 +143,9 @@ class _RevealState extends State<Reveal> {
     final box = context.findRenderObject();
     if (box is! RenderBox || !box.attached || !box.hasSize) return;
     final top = box.localToGlobal(Offset.zero).dy;
-    if (top < MediaQuery.sizeOf(context).height * 0.88) setState(() => _shown = true);
+    if (top < MediaQuery.sizeOf(context).height * 0.88) {
+      setState(() => _shown = true);
+    }
   }
 
   @override
@@ -148,7 +162,12 @@ class _RevealState extends State<Reveal> {
       offset: _shown ? Offset.zero : const Offset(0, 0.05),
       duration: d,
       curve: Curves.easeOutCubic,
-      child: AnimatedOpacity(opacity: _shown ? 1 : 0, duration: d, curve: Curves.easeOut, child: widget.child),
+      child: AnimatedOpacity(
+        opacity: _shown ? 1 : 0,
+        duration: d,
+        curve: Curves.easeOut,
+        child: RepaintBoundary(child: widget.child),
+      ),
     );
   }
 }
@@ -163,8 +182,12 @@ class NextButton extends StatefulWidget {
   State<NextButton> createState() => _NextButtonState();
 }
 
-class _NextButtonState extends State<NextButton> with SingleTickerProviderStateMixin {
-  late final AnimationController _bob = AnimationController(vsync: this, duration: const Duration(milliseconds: 1100));
+class _NextButtonState extends State<NextButton>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _bob = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 1100),
+  );
   bool _hover = false;
 
   @override
@@ -173,13 +196,18 @@ class _NextButtonState extends State<NextButton> with SingleTickerProviderStateM
     if (MediaQuery.disableAnimationsOf(context)) {
       _bob.stop();
     } else if (!_bob.isAnimating) {
-      _bob.repeat(reverse: true, count: 8); // несколько покачиваний, дальше покой: без вечной анимации
+      _bob.repeat(
+        reverse: true,
+        count: 8,
+      ); // несколько покачиваний, дальше покой: без вечной анимации
     }
   }
 
   void _hoverChanged(bool v) {
     setState(() => _hover = v);
-    if (v && !_bob.isAnimating && !MediaQuery.disableAnimationsOf(context)) _bob.repeat(reverse: true, count: 4);
+    if (v && !_bob.isAnimating && !MediaQuery.disableAnimationsOf(context)) {
+      _bob.repeat(reverse: true, count: 4);
+    }
   }
 
   @override
@@ -207,11 +235,20 @@ class _NextButtonState extends State<NextButton> with SingleTickerProviderStateM
             color: _hover ? K.lavender900 : K.surface.withValues(alpha: 0.85),
             border: Border.all(color: _hover ? K.accent : K.lineStrong),
           ),
-          child: RepaintBoundary(child: AnimatedBuilder(
-            animation: _bob,
-            builder: (context, child) => Transform.translate(offset: Offset(0, _bob.value * 4), child: child),
-            child: const Icon(Icons.arrow_downward_rounded, size: 20, color: K.text),
-          )),
+          child: RepaintBoundary(
+            child: AnimatedBuilder(
+              animation: _bob,
+              builder: (context, child) => Transform.translate(
+                offset: Offset(0, _bob.value * 4),
+                child: child,
+              ),
+              child: const Icon(
+                Icons.arrow_downward_rounded,
+                size: 20,
+                color: K.text,
+              ),
+            ),
+          ),
         ),
       ),
     ),
@@ -244,11 +281,17 @@ class UpButton extends StatelessWidget {
                 child: Material(
                   color: K.surface,
                   elevation: 6,
-                  shape: const CircleBorder(side: BorderSide(color: K.lineStrong)),
+                  shape: const CircleBorder(
+                    side: BorderSide(color: K.lineStrong),
+                  ),
                   child: InkWell(
                     customBorder: const CircleBorder(),
                     onTap: () => scrollToTop(context),
-                    child: const SizedBox(width: 48, height: 48, child: Icon(Icons.arrow_upward_rounded, color: K.text)),
+                    child: const SizedBox(
+                      width: 48,
+                      height: 48,
+                      child: Icon(Icons.arrow_upward_rounded, color: K.text),
+                    ),
                   ),
                 ),
               ),
@@ -268,7 +311,12 @@ class SectionLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Text(
     text,
-    style: const TextStyle(fontFamily: K.mono, fontSize: 12, letterSpacing: 1.7, color: K.accent),
+    style: const TextStyle(
+      fontFamily: K.mono,
+      fontSize: 12,
+      letterSpacing: 1.7,
+      color: K.accent,
+    ),
   );
 }
 
@@ -280,6 +328,11 @@ class SectionTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final narrow = MediaQuery.sizeOf(context).width < 640;
-    return Text(text, style: Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: narrow ? 30 : 44));
+    return Text(
+      text,
+      style: Theme.of(
+        context,
+      ).textTheme.displayMedium?.copyWith(fontSize: narrow ? 30 : 44),
+    );
   }
 }

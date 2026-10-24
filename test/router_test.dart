@@ -36,7 +36,8 @@ void main() {
     setUpDesktop(tester);
     await tester.pumpWidget(const KosmaSite(initialLocation: '/en/scanner/privacy'));
     await tester.pumpAndSettle();
-    expect(find.text('Kosma Scanner — Privacy policy'), findsOneWidget);
+    expect(find.text('Kosma Scanner — Privacy Policy'), findsOneWidget);
+    expect(find.textContaining('Firebase Crashlytics'), findsWidgets);
 
     await tester.pumpWidget(const KosmaSite(key: ValueKey('404'), initialLocation: '/en/nope'));
     await tester.pumpAndSettle();

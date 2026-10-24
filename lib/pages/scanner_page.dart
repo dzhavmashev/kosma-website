@@ -31,7 +31,10 @@ class _ScannerPageState extends State<ScannerPage> {
     final t = Theme.of(context).textTheme;
     final wide = MediaQuery.sizeOf(context).width >= 900;
     return Title(
-      title: l.tr('Kosma Сканер — сканер штрихкодов и QR для склада и ТСД', 'Kosma Scanner — barcode and QR scanner for warehouses and handheld terminals'),
+      title: l.tr(
+        'Kosma Сканер — сканер штрихкодов и QR для склада и ТСД',
+        'Kosma Scanner — barcode and QR scanner for warehouses and handheld terminals',
+      ),
       color: K.bg,
       child: Column(
         children: [
@@ -44,7 +47,9 @@ class _ScannerPageState extends State<ScannerPage> {
             reveal: false,
             child: Flex(
               direction: wide ? Axis.horizontal : Axis.vertical,
-              crossAxisAlignment: wide ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+              crossAxisAlignment: wide
+                  ? CrossAxisAlignment.center
+                  : CrossAxisAlignment.start,
               children: [
                 Flexible(
                   flex: 3,
@@ -52,13 +57,27 @@ class _ScannerPageState extends State<ScannerPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        l.tr('KOSMA СКАНЕР · ANDROID · iOS · ТСД', 'KOSMA SCANNER · ANDROID · iOS · RUGGED HANDHELDS'),
-                        style: const TextStyle(fontFamily: K.mono, fontSize: 13, letterSpacing: 1.8, color: K.scan),
+                        l.tr(
+                          'KOSMA СКАНЕР · ANDROID · iOS · ТСД',
+                          'KOSMA SCANNER · ANDROID · iOS · RUGGED HANDHELDS',
+                        ),
+                        style: const TextStyle(
+                          fontFamily: K.mono,
+                          fontSize: 13,
+                          letterSpacing: 1.8,
+                          color: K.scan,
+                        ),
                       ),
                       const SizedBox(height: 24),
                       Text(
-                        l.tr('Отсканировали — количество посчитано', 'Scan it — the count is done'),
-                        style: t.displayLarge?.copyWith(fontSize: wide ? 68 : 40, height: 1.05),
+                        l.tr(
+                          'Отсканировали — количество посчитано',
+                          'Scan it — the count is done',
+                        ),
+                        style: t.displayLarge?.copyWith(
+                          fontSize: wide ? 68 : 40,
+                          height: 1.05,
+                        ),
                       ),
                       const SizedBox(height: 24),
                       ConstrainedBox(
@@ -68,7 +87,10 @@ class _ScannerPageState extends State<ScannerPage> {
                             'Сканер штрихкодов и QR для склада, магазина и инвентаризации. Работает камерой телефона и встроенным сканером ТСД.',
                             'Barcode and QR scanner for warehouses, shops and stocktaking. Works with the phone camera and the built-in scanner of a handheld terminal.',
                           ),
-                          style: t.bodyLarge?.copyWith(color: K.muted, fontSize: 19),
+                          style: t.bodyLarge?.copyWith(
+                            color: K.muted,
+                            fontSize: 19,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 32),
@@ -76,13 +98,27 @@ class _ScannerPageState extends State<ScannerPage> {
                         spacing: 12,
                         runSpacing: 12,
                         children: [
-                          _StoreButton(label: l.tr('Скоро в Google Play', 'Coming soon to Google Play'), filled: true),
-                          _StoreButton(label: l.tr('Скоро в App Store', 'Coming soon to App Store')),
+                          _StoreButton(
+                            label: l.tr(
+                              'Скоро в Google Play',
+                              'Coming soon to Google Play',
+                            ),
+                            filled: true,
+                          ),
+                          _StoreButton(
+                            label: l.tr(
+                              'Скоро в App Store',
+                              'Coming soon to App Store',
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        l.tr('Бесплатно — 3 сессии в месяц. Pro — по подписке.', 'Free — 3 sessions a month. Pro — by subscription.'),
+                        l.tr(
+                          'Бесплатно — 3 сессии в месяц. Pro — по подписке.',
+                          'Free — 3 sessions a month. Pro — by subscription.',
+                        ),
                         style: t.bodySmall,
                       ),
                     ],
@@ -102,13 +138,23 @@ class _ScannerPageState extends State<ScannerPage> {
               children: [
                 SectionLabel(l.tr('КАК РАБОТАЕТ', 'HOW IT WORKS')),
                 const SizedBox(height: 12),
-                SectionTitle(l.tr('Скан → количество → файл или ваша система', 'Scan → count → file or your system')),
+                SectionTitle(
+                  l.tr(
+                    'Скан → количество → файл или ваша система',
+                    'Scan → count → file or your system',
+                  ),
+                ),
                 const SizedBox(height: 32),
                 Wrap(
                   spacing: 20,
                   runSpacing: 20,
                   children: [
-                    for (final (i, step) in _steps(l).indexed) _StepCard(number: '0${i + 1}', title: step.$1, text: step.$2),
+                    for (final (i, step) in _steps(l).indexed)
+                      _StepCard(
+                        number: '0${i + 1}',
+                        title: step.$1,
+                        text: step.$2,
+                      ),
                   ],
                 ),
               ],
@@ -124,12 +170,20 @@ class _ScannerPageState extends State<ScannerPage> {
               children: [
                 SectionLabel(l.tr('ФУНКЦИИ', 'FEATURES')),
                 const SizedBox(height: 12),
-                SectionTitle(l.tr('Для склада, магазина и ТСД', 'For warehouses, shops and handheld terminals')),
+                SectionTitle(
+                  l.tr(
+                    'Для склада, магазина и ТСД',
+                    'For warehouses, shops and handheld terminals',
+                  ),
+                ),
                 const SizedBox(height: 32),
                 Wrap(
                   spacing: 16,
                   runSpacing: 16,
-                  children: [for (final f in _features_(l)) _FeatureCard(tag: f.$1, title: f.$2, text: f.$3)],
+                  children: [
+                    for (final f in _features_(l))
+                      _FeatureCard(tag: f.$1, title: f.$2, text: f.$3),
+                  ],
                 ),
               ],
             ),
@@ -149,18 +203,22 @@ class _ScannerPageState extends State<ScannerPage> {
                   children: [
                     _PlanCard(
                       title: l.tr('Free — бесплатно', 'Free'),
-                      lines: l.tr(
-                        '3 сессии в месяц, сброс 1-го числа. Ещё одну можно получить за короткий ролик, не чаще раза в день.|Сканы и время работы не ограничены.|Справочник до 500 товаров, экспорт CSV, ячейки хранения.|С рекламой.',
-                        '3 sessions a month, reset on the 1st. One more can be earned with a short video, once a day at most.|Scans and session time are not limited.|Catalog up to 500 items, CSV export, storage cells.|With ads.',
-                      ).split('|'),
+                      lines: l
+                          .tr(
+                            '3 сессии в месяц, сброс 1-го числа. Ещё одну можно получить за короткий ролик, не чаще раза в день.|Сканы и время работы не ограничены.|Справочник до 500 товаров, экспорт CSV, ячейки хранения.|С рекламой.',
+                            '3 sessions a month, reset on the 1st. One more can be earned with a short video, once a day at most.|Scans and session time are not limited.|Catalog up to 500 items, CSV export, storage cells.|With ads.',
+                          )
+                          .split('|'),
                     ),
                     _PlanCard(
                       pro: true,
                       title: l.tr('Pro — по подписке', 'Pro — by subscription'),
-                      lines: l.tr(
-                        r'$9.99 в месяц или $59.99 в год.|В Казахстане, Кыргызстане, Узбекистане, Таджикистане, Армении, Азербайджане, Молдове и Грузии — $3.99 в месяц или $24.99 в год.|Без лимита сессий и без рекламы, справочник без ограничений.|План / факт, XLSX, письмо на заданный адрес, Google Таблица, отправка в ваш API с curl, объединение сессий.',
-                        r'$9.99 a month or $59.99 a year.|In Kazakhstan, Kyrgyzstan, Uzbekistan, Tajikistan, Armenia, Azerbaijan, Moldova and Georgia — $3.99 a month or $24.99 a year.|No session limit, no ads, unlimited catalog.|Plan / fact, XLSX, e-mail to a set address, Google Sheets, sending to your API with curl, merging sessions.',
-                      ).split('|'),
+                      lines: l
+                          .tr(
+                            r'$9.99 в месяц или $59.99 в год.|В Казахстане, Кыргызстане, Узбекистане, Таджикистане, Армении, Азербайджане, Молдове и Грузии — $3.99 в месяц или $24.99 в год.|Без лимита сессий и без рекламы, справочник без ограничений.|План / факт, XLSX, письмо на заданный адрес, Google Таблица, отправка в ваш API с curl, объединение сессий.',
+                            r'$9.99 a month or $59.99 a year.|In Kazakhstan, Kyrgyzstan, Uzbekistan, Tajikistan, Armenia, Azerbaijan, Moldova and Georgia — $3.99 a month or $24.99 a year.|No session limit, no ads, unlimited catalog.|Plan / fact, XLSX, e-mail to a set address, Google Sheets, sending to your API with curl, merging sessions.',
+                          )
+                          .split('|'),
                     ),
                   ],
                 ),
@@ -195,7 +253,11 @@ class _ScannerPageState extends State<ScannerPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            PhoneFrame(asset: 'assets/shots/${s.$1}-${l.name}.png', label: s.$2, width: 200),
+                            PhoneFrame(
+                              asset: 'assets/shots/${s.$1}-${l.name}.png',
+                              label: s.$2,
+                              width: 200,
+                            ),
                             const SizedBox(height: 12),
                             Text(s.$2, style: t.bodyMedium),
                           ],
@@ -204,7 +266,13 @@ class _ScannerPageState extends State<ScannerPage> {
                   ],
                 ),
                 const SizedBox(height: 24),
-                Text(l.tr('Адреса и данные на экранах — примеры.', 'Addresses and data on the screens are examples.'), style: t.bodySmall),
+                Text(
+                  l.tr(
+                    'Адреса и данные на экранах — примеры.',
+                    'Addresses and data on the screens are examples.',
+                  ),
+                  style: t.bodySmall,
+                ),
               ],
             ),
           ),
@@ -225,9 +293,15 @@ class _ScannerPageState extends State<ScannerPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(q.$1, style: t.titleMedium?.copyWith(fontSize: 18)),
+                          Text(
+                            q.$1,
+                            style: t.titleMedium?.copyWith(fontSize: 18),
+                          ),
                           const SizedBox(height: 6),
-                          Text(q.$2, style: t.bodyMedium?.copyWith(color: K.muted)),
+                          Text(
+                            q.$2,
+                            style: t.bodyMedium?.copyWith(color: K.muted),
+                          ),
                         ],
                       ),
                     ),
@@ -246,9 +320,18 @@ class _ScannerPageState extends State<ScannerPage> {
                 SectionTitle(l.tr('Скачать', 'Download')),
                 const SizedBox(height: 20),
                 // Ссылку на Google Play подставим после публикации приложения.
-                Text(l.tr('Google Play · [ссылка после публикации]', 'Google Play · [link after publication]'), style: t.bodyLarge),
+                Text(
+                  l.tr(
+                    'Google Play · [ссылка после публикации]',
+                    'Google Play · [link after publication]',
+                  ),
+                  style: t.bodyLarge,
+                ),
                 const SizedBox(height: 6),
-                Text(l.tr('App Store · скоро', 'App Store · coming soon'), style: t.bodyLarge),
+                Text(
+                  l.tr('App Store · скоро', 'App Store · coming soon'),
+                  style: t.bodyLarge,
+                ),
               ],
             ),
           ),
@@ -382,11 +465,26 @@ List<(String, String, String)> _features_(Lang l) => [
 ];
 
 List<(String, String)> _shots_(Lang l) => [
-  ('sessions', l.tr('Приёмка, отгрузка и инвентаризация — каждая своей сессией', 'Receiving, shipping and stocktaking — each in its own session')),
+  (
+    'sessions',
+    l.tr(
+      'Приёмка, отгрузка и инвентаризация — каждая своей сессией',
+      'Receiving, shipping and stocktaking — each in its own session',
+    ),
+  ),
   ('summing', l.tr('Скан — и количество растёт', 'Scan — and the count grows')),
-  ('tsd', l.tr('Сканер терминала готов — нажмите кнопку', 'Terminal scanner ready — press the key')),
+  (
+    'tsd',
+    l.tr(
+      'Сканер терминала готов — нажмите кнопку',
+      'Terminal scanner ready — press the key',
+    ),
+  ),
   ('export', l.tr('CSV бесплатно, XLSX в Pro', 'CSV is free, XLSX in Pro')),
-  ('api', l.tr('Отправка сессии в вашу систему', 'Send a session to your system')),
+  (
+    'api',
+    l.tr('Отправка сессии в вашу систему', 'Send a session to your system'),
+  ),
 ];
 
 List<(String, String)> _faq_(Lang l) => [
@@ -413,7 +511,10 @@ List<(String, String)> _faq_(Lang l) => [
   ),
   (
     l.tr('Как отменить подписку?', 'How do I cancel the subscription?'),
-    l.tr('В любой момент, в магазине приложений.', 'Any time, in the app store.'),
+    l.tr(
+      'В любой момент, в магазине приложений.',
+      'Any time, in the app store.',
+    ),
   ),
 ];
 
@@ -435,13 +536,23 @@ class _StoreButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         border: filled ? null : Border.all(color: K.lineStrong),
       ),
-      child: Text(label, style: TextStyle(fontWeight: FontWeight.w600, color: filled ? K.bg : K.text)),
+      child: Text(
+        label,
+        style: TextStyle(
+          fontWeight: FontWeight.w600,
+          color: filled ? K.bg : K.text,
+        ),
+      ),
     ),
   );
 }
 
 class _StepCard extends StatelessWidget {
-  const _StepCard({required this.number, required this.title, required this.text});
+  const _StepCard({
+    required this.number,
+    required this.title,
+    required this.text,
+  });
   final String number;
   final String title;
   final String text;
@@ -452,13 +563,24 @@ class _StepCard extends StatelessWidget {
     return SizedBox(
       width: 360,
       child: DecoratedBox(
-        decoration: BoxDecoration(color: K.surface, borderRadius: BorderRadius.circular(16), border: Border.all(color: K.line)),
+        decoration: BoxDecoration(
+          color: K.surface,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: K.line),
+        ),
         child: Padding(
           padding: const EdgeInsets.all(24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(number, style: const TextStyle(fontFamily: K.mono, fontSize: 32, color: K.scan)),
+              Text(
+                number,
+                style: const TextStyle(
+                  fontFamily: K.mono,
+                  fontSize: 32,
+                  color: K.scan,
+                ),
+              ),
               const SizedBox(height: 12),
               Text(title, style: t.titleMedium?.copyWith(fontSize: 19)),
               const SizedBox(height: 8),
@@ -473,7 +595,11 @@ class _StepCard extends StatelessWidget {
 
 /// Карточка функции: метка одного цвета у всех карточек (лаванда).
 class _FeatureCard extends StatelessWidget {
-  const _FeatureCard({required this.tag, required this.title, required this.text});
+  const _FeatureCard({
+    required this.tag,
+    required this.title,
+    required this.text,
+  });
   final String tag;
   final String title;
   final String text;
@@ -484,13 +610,25 @@ class _FeatureCard extends StatelessWidget {
     return SizedBox(
       width: 368,
       child: DecoratedBox(
-        decoration: BoxDecoration(color: K.surface, borderRadius: BorderRadius.circular(12), border: Border.all(color: K.line)),
+        decoration: BoxDecoration(
+          color: K.surface,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: K.line),
+        ),
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(tag, style: const TextStyle(fontFamily: K.mono, fontSize: 12, letterSpacing: 1.2, color: K.lavender300)),
+              Text(
+                tag,
+                style: const TextStyle(
+                  fontFamily: K.mono,
+                  fontSize: 12,
+                  letterSpacing: 1.2,
+                  color: K.lavender300,
+                ),
+              ),
               const SizedBox(height: 8),
               Text(title, style: t.titleMedium?.copyWith(fontSize: 18)),
               const SizedBox(height: 6),
@@ -518,7 +656,14 @@ class _PlanCard extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: pro ? K.lavender700 : K.line),
-          gradient: pro ? const LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [K.lavender900, K.surface], stops: [0, 0.6]) : null,
+          gradient: pro
+              ? const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [K.lavender900, K.surface],
+                  stops: [0, 0.6],
+                )
+              : null,
           color: pro ? null : K.surface,
         ),
         child: Padding(
@@ -531,7 +676,12 @@ class _PlanCard extends StatelessWidget {
               for (final line in lines)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 10),
-                  child: Text(line, style: t.bodyMedium?.copyWith(color: pro ? K.lavender300 : K.muted)),
+                  child: Text(
+                    line,
+                    style: t.bodyMedium?.copyWith(
+                      color: pro ? K.lavender300 : K.muted,
+                    ),
+                  ),
                 ),
             ],
           ),

@@ -10,7 +10,12 @@ import 'spinning_mark.dart';
 /// Общий каркас всех страниц kosma.tech: шапка (знак, продукты, RU/EN), контент, футер,
 /// кнопка «наверх». Владеет прокруткой страницы — блоки и кнопки берут её из [PageScope].
 class SiteShell extends StatefulWidget {
-  const SiteShell({super.key, required this.lang, required this.path, required this.child});
+  const SiteShell({
+    super.key,
+    required this.lang,
+    required this.path,
+    required this.child,
+  });
 
   final Lang lang;
 
@@ -42,13 +47,18 @@ class _SiteShellState extends State<SiteShell> {
           CustomScrollView(
             controller: _controller,
             slivers: [
-              SliverToBoxAdapter(child: _Header(lang: widget.lang, path: widget.path)),
+              SliverToBoxAdapter(
+                child: _Header(lang: widget.lang, path: widget.path),
+              ),
               SliverToBoxAdapter(child: widget.child),
               SliverFillRemaining(
                 hasScrollBody: false,
                 child: Align(
                   alignment: Alignment.bottomCenter,
-                  child: KeyedSubtree(key: _footerKey, child: _Footer(lang: widget.lang)),
+                  child: KeyedSubtree(
+                    key: _footerKey,
+                    child: _Footer(lang: widget.lang),
+                  ),
                 ),
               ),
             ],
@@ -70,7 +80,9 @@ class _Header extends StatelessWidget {
     final s = S(lang);
     final narrow = MediaQuery.sizeOf(context).width < 760;
     return DecoratedBox(
-      decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: K.line))),
+      decoration: const BoxDecoration(
+        border: Border(bottom: BorderSide(color: K.line)),
+      ),
       child: Band(
         child: SizedBox(
           height: 72,
@@ -85,16 +97,29 @@ class _Header extends StatelessWidget {
                     children: [
                       const SpinningMark(size: 28, loop: false),
                       const SizedBox(width: 10),
-                      const Text('KOSMA', style: TextStyle(fontFamily: K.display, fontSize: 18, letterSpacing: 5.4)),
+                      const Text(
+                        'KOSMA',
+                        style: TextStyle(
+                          fontFamily: K.display,
+                          fontSize: 18,
+                          letterSpacing: 5.4,
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ),
               const Spacer(),
               if (!narrow) ...[
-                TextButton(onPressed: () => context.go(lang.href('/scanner')), child: Text(s.scanner)),
+                TextButton(
+                  onPressed: () => context.go(lang.href('/scanner')),
+                  child: Text(s.scanner),
+                ),
                 const SizedBox(width: 4),
-                TextButton(onPressed: null, child: Text('${s.warehouse} · ${s.soon}')),
+                TextButton(
+                  onPressed: null,
+                  child: Text('${s.warehouse} · ${s.soon}'),
+                ),
                 const SizedBox(width: 4),
                 TextButton(onPressed: null, child: Text('${s.hr} · ${s.soon}')),
                 const SizedBox(width: 16),
@@ -106,8 +131,14 @@ class _Header extends StatelessWidget {
                   onSelected: (_) => context.go(lang.href('/scanner')),
                   itemBuilder: (context) => [
                     PopupMenuItem(value: 'scanner', child: Text(s.scanner)),
-                    PopupMenuItem(enabled: false, child: Text('${s.warehouse} · ${s.soon}')),
-                    PopupMenuItem(enabled: false, child: Text('${s.hr} · ${s.soon}')),
+                    PopupMenuItem(
+                      enabled: false,
+                      child: Text('${s.warehouse} · ${s.soon}'),
+                    ),
+                    PopupMenuItem(
+                      enabled: false,
+                      child: Text('${s.hr} · ${s.soon}'),
+                    ),
                   ],
                 ),
               _LangSwitch(lang: lang, path: path),
@@ -134,7 +165,10 @@ class _LangSwitch extends StatelessWidget {
           onPressed: l == lang ? null : () => context.go(l.href(path)),
           child: Text(
             l.name.toUpperCase(),
-            style: TextStyle(fontWeight: FontWeight.w600, color: l == lang ? K.accent : K.muted),
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              color: l == lang ? K.accent : K.muted,
+            ),
           ),
         ),
     ],
@@ -150,7 +184,10 @@ class _Footer extends StatelessWidget {
     final s = S(lang);
     final t = Theme.of(context).textTheme;
     return DecoratedBox(
-      decoration: const BoxDecoration(color: K.surfaceDeep, border: Border(top: BorderSide(color: K.line))),
+      decoration: const BoxDecoration(
+        color: K.surfaceDeep,
+        border: Border(top: BorderSide(color: K.line)),
+      ),
       child: Band(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 40),
@@ -161,7 +198,14 @@ class _Footer extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('KOSMA', style: TextStyle(fontFamily: K.display, fontSize: 18, letterSpacing: 5.4)),
+                  const Text(
+                    'KOSMA',
+                    style: TextStyle(
+                      fontFamily: K.display,
+                      fontSize: 18,
+                      letterSpacing: 5.4,
+                    ),
+                  ),
                   const SizedBox(height: 10),
                   Text(s.sloganBoth, style: t.bodySmall),
                   if (kContactEmail.isNotEmpty) ...[
@@ -175,11 +219,23 @@ class _Footer extends StatelessWidget {
                 children: [
                   Text(s.products, style: t.bodySmall),
                   const SizedBox(height: 8),
-                  InkWell(onTap: () => context.go(lang.href('/scanner')), child: Text(s.scanner, style: t.bodyMedium?.copyWith(color: K.lavender300))),
+                  InkWell(
+                    onTap: () => context.go(lang.href('/scanner')),
+                    child: Text(
+                      s.scanner,
+                      style: t.bodyMedium?.copyWith(color: K.lavender300),
+                    ),
+                  ),
                   const SizedBox(height: 6),
-                  Text('${s.warehouse} · ${s.soon}', style: t.bodyMedium?.copyWith(color: K.neutral600)),
+                  Text(
+                    '${s.warehouse} · ${s.soon}',
+                    style: t.bodyMedium?.copyWith(color: K.neutral600),
+                  ),
                   const SizedBox(height: 6),
-                  Text('${s.hr} · ${s.soon}', style: t.bodyMedium?.copyWith(color: K.neutral600)),
+                  Text(
+                    '${s.hr} · ${s.soon}',
+                    style: t.bodyMedium?.copyWith(color: K.neutral600),
+                  ),
                 ],
               ),
               Column(
@@ -189,7 +245,10 @@ class _Footer extends StatelessWidget {
                   const SizedBox(height: 8),
                   InkWell(
                     onTap: () => context.go(lang.href('/scanner/privacy')),
-                    child: Text(s.privacyScanner, style: t.bodyMedium?.copyWith(color: K.lavender300)),
+                    child: Text(
+                      s.privacyScanner,
+                      style: t.bodyMedium?.copyWith(color: K.lavender300),
+                    ),
                   ),
                 ],
               ),

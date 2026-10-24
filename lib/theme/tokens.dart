@@ -41,14 +41,23 @@ abstract final class K {
 }
 
 ThemeData buildSiteTheme() {
-  final scheme = ColorScheme.fromSeed(seedColor: K.lavender600, brightness: Brightness.dark).copyWith(
-    primary: K.accent,
-    onPrimary: K.neutral950,
-    surface: K.bg,
-    onSurface: K.text,
+  final scheme =
+      ColorScheme.fromSeed(
+        seedColor: K.lavender600,
+        brightness: Brightness.dark,
+      ).copyWith(
+        primary: K.accent,
+        onPrimary: K.neutral950,
+        surface: K.bg,
+        onSurface: K.text,
+      );
+  TextStyle display(double size, [FontWeight w = FontWeight.w400]) => TextStyle(
+    fontFamily: K.display,
+    fontSize: size,
+    fontWeight: w,
+    color: K.text,
+    height: 1.15,
   );
-  TextStyle display(double size, [FontWeight w = FontWeight.w400]) =>
-      TextStyle(fontFamily: K.display, fontSize: size, fontWeight: w, color: K.text, height: 1.15);
   return ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,
@@ -60,11 +69,20 @@ ThemeData buildSiteTheme() {
       displayMedium: display(40),
       headlineLarge: display(32, FontWeight.w500),
       headlineMedium: display(24, FontWeight.w500),
-      titleMedium: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: K.text),
+      titleMedium: const TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+        color: K.text,
+      ),
       bodyLarge: const TextStyle(fontSize: 18, height: 1.55, color: K.text),
       bodyMedium: const TextStyle(fontSize: 16, height: 1.5, color: K.text),
       bodySmall: const TextStyle(fontSize: 14, height: 1.45, color: K.muted),
-      labelSmall: const TextStyle(fontFamily: K.display, fontSize: 12, letterSpacing: 2.2, color: K.muted),
+      labelSmall: const TextStyle(
+        fontFamily: K.display,
+        fontSize: 12,
+        letterSpacing: 2.2,
+        color: K.muted,
+      ),
     ),
   );
 }

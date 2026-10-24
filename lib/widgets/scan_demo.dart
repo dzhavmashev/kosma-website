@@ -16,10 +16,19 @@ class ScanDemo extends StatefulWidget {
   State<ScanDemo> createState() => _ScanDemoState();
 }
 
-class _ScanDemoState extends State<ScanDemo> with SingleTickerProviderStateMixin {
-  static const _codes = ['4600702001234', '4810268031228', '4607001771562', '4870204391517'];
+class _ScanDemoState extends State<ScanDemo>
+    with SingleTickerProviderStateMixin {
+  static const _codes = [
+    '4600702001234',
+    '4810268031228',
+    '4607001771562',
+    '4870204391517',
+  ];
 
-  late final AnimationController _line = AnimationController(vsync: this, duration: const Duration(milliseconds: 2400));
+  late final AnimationController _line = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 2400),
+  );
   Timer? _timer;
   int _total = 36;
   final _recent = <MapEntry<String, int>>[
@@ -38,7 +47,10 @@ class _ScanDemoState extends State<ScanDemo> with SingleTickerProviderStateMixin
       _timer = null;
     } else {
       if (!_line.isAnimating) _line.repeat(reverse: true);
-      _timer ??= Timer.periodic(const Duration(milliseconds: 1400), (_) => _scan());
+      _timer ??= Timer.periodic(
+        const Duration(milliseconds: 1400),
+        (_) => _scan(),
+      );
     }
   }
 
@@ -69,14 +81,20 @@ class _ScanDemoState extends State<ScanDemo> with SingleTickerProviderStateMixin
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        PhoneFrame(
-          asset: 'assets/shots/summing-${l.name}.png',
-          label: l.tr('Экран сессии Kosma Сканер', 'Kosma Scanner session screen'),
-          width: 270,
-          overlay: IgnorePointer(
-            child: AnimatedBuilder(
-              animation: _line,
-              builder: (context, _) => CustomPaint(painter: _FramePainter(_line.value)),
+        RepaintBoundary(
+          child: PhoneFrame(
+            asset: 'assets/shots/summing-${l.name}.png',
+            label: l.tr(
+              'Экран сессии Kosma Сканер',
+              'Kosma Scanner session screen',
+            ),
+            width: 270,
+            overlay: IgnorePointer(
+              child: AnimatedBuilder(
+                animation: _line,
+                builder: (context, _) =>
+                    CustomPaint(painter: _FramePainter(_line.value)),
+              ),
             ),
           ),
         ),
@@ -104,7 +122,14 @@ class _ScanDemoState extends State<ScanDemo> with SingleTickerProviderStateMixin
                         fontFeatures: [FontFeature.tabularFigures()],
                       ),
                     ),
-                    Text(l.tr('СКАНОВ · ДЕМО', 'SCANS · DEMO'), style: t.labelSmall?.copyWith(fontFamily: K.mono, fontSize: 10, letterSpacing: 1.2)),
+                    Text(
+                      l.tr('СКАНОВ · ДЕМО', 'SCANS · DEMO'),
+                      style: t.labelSmall?.copyWith(
+                        fontFamily: K.mono,
+                        fontSize: 10,
+                        letterSpacing: 1.2,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -120,7 +145,11 @@ class _ScanDemoState extends State<ScanDemo> with SingleTickerProviderStateMixin
                             '…${_recent[i].key.substring(_recent[i].key.length - 4)}  ×${_recent[i].value}',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontFamily: K.mono, fontSize: 12, color: i == 0 ? K.scan : K.muted),
+                            style: TextStyle(
+                              fontFamily: K.mono,
+                              fontSize: 12,
+                              color: i == 0 ? K.scan : K.muted,
+                            ),
                           ),
                         ),
                     ],
@@ -142,17 +171,30 @@ class _FramePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final r = Rect.fromLTWH(size.width * 0.1, size.height * 0.22, size.width * 0.8, size.height * 0.3);
+    final r = Rect.fromLTWH(
+      size.width * 0.1,
+      size.height * 0.22,
+      size.width * 0.8,
+      size.height * 0.3,
+    );
     final corner = Paint()
       ..color = K.scan
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3;
     const c = 20.0;
     final path = Path()
-      ..moveTo(r.left, r.top + c)..lineTo(r.left, r.top)..lineTo(r.left + c, r.top)
-      ..moveTo(r.right - c, r.top)..lineTo(r.right, r.top)..lineTo(r.right, r.top + c)
-      ..moveTo(r.left, r.bottom - c)..lineTo(r.left, r.bottom)..lineTo(r.left + c, r.bottom)
-      ..moveTo(r.right - c, r.bottom)..lineTo(r.right, r.bottom)..lineTo(r.right, r.bottom - c);
+      ..moveTo(r.left, r.top + c)
+      ..lineTo(r.left, r.top)
+      ..lineTo(r.left + c, r.top)
+      ..moveTo(r.right - c, r.top)
+      ..lineTo(r.right, r.top)
+      ..lineTo(r.right, r.top + c)
+      ..moveTo(r.left, r.bottom - c)
+      ..lineTo(r.left, r.bottom)
+      ..lineTo(r.left + c, r.bottom)
+      ..moveTo(r.right - c, r.bottom)
+      ..lineTo(r.right, r.bottom)
+      ..lineTo(r.right, r.bottom - c);
     canvas.drawPath(path, corner);
     final y = r.top + 8 + (r.height - 16) * Curves.easeInOut.transform(t);
     final glow = Paint()

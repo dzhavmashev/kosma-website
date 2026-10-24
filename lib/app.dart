@@ -15,7 +15,9 @@ class KosmaSite extends StatefulWidget {
 }
 
 class _KosmaSiteState extends State<KosmaSite> {
-  late final GoRouter _router = buildRouter(initialLocation: widget.initialLocation);
+  late final GoRouter _router = buildRouter(
+    initialLocation: widget.initialLocation,
+  );
 
   @override
   void dispose() {

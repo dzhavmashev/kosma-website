@@ -32,12 +32,22 @@ GoRouter buildRouter({String? initialLocation}) => GoRouter(
           path: lang.href(page.path),
           pageBuilder: (context, state) => NoTransitionPage(
             key: state.pageKey,
-            child: SiteShell(lang: lang, path: page.path, child: page.builder(lang)),
+            child: SiteShell(
+              lang: lang,
+              path: page.path,
+              child: page.builder(lang),
+            ),
           ),
         ),
   ],
   errorBuilder: (context, state) {
-    final lang = state.uri.path == '/en' || state.uri.path.startsWith('/en/') ? Lang.en : Lang.ru;
-    return SiteShell(lang: lang, path: '/', child: NotFoundPage(lang: lang));
+    final lang = state.uri.path == '/en' || state.uri.path.startsWith('/en/')
+        ? Lang.en
+        : Lang.ru;
+    return SiteShell(
+      lang: lang,
+      path: '/',
+      child: NotFoundPage(lang: lang),
+    );
   },
 );
