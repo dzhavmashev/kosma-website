@@ -1,6 +1,8 @@
 # Сборщик Flutter Web сайтов на watch-server (стек «flutter-builder», виден в Portainer).
-# Контейнер держится запущенным; сборка: docker exec flutter-builder build-site <репо> <подкаталог>.
-#   /src  — исходники сайтов (~/src на хосте), /site — выкладка (~/site, её раздаёт Caddy).
+# Только собирает и выкладывает build/web в ~/site/<подкаталог>; ничего не раздаёт
+# (сайт раздаёт отдельный стек kosma-site, deploy/site/).
+#   docker exec flutter-builder build-site kosma-website kosma-website
+#   /src — исходники сайтов (~/src на хосте), /site — выкладка (~/site).
 name: flutter-builder
 
 services:

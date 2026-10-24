@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Сборка Flutter Web сайта ВНУТРИ контейнера flutter-builder и атомарная выкладка.
 #   build-site <каталог в /src> <подкаталог в /site> [base-href]
-#   docker exec flutter-builder build-site kosma-website _preview /_preview/
+#   docker exec flutter-builder build-site kosma-website kosma-website
 # git pull — только если у репозитория есть origin и доступ (deploy key); иначе собирает как есть.
 set -euo pipefail
 

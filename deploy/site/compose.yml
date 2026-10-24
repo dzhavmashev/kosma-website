@@ -1,0 +1,16 @@
+# Сайт kosma.tech: только раздача готовой сборки (стек «kosma-site», виден в Portainer).
+# Собирает отдельный стек flutter-builder → ~/site/kosma-website (атомарная подмена каталога).
+# Монтируется родительский ~/site (ro): bind-mount самого каталога держал бы старый inode
+# после подмены. Слушает только localhost — наружу через Caddy (127.0.0.1:8081) + Cloudflare Tunnel.
+name: kosma-site
+
+services:
+  web:
+    image: nginx:1.29.3-alpine
+    container_name: kosma-site
+    ports:
+      - "127.0.0.1:8082:80"
+    volumes:
+      - /home/user/site:/srv/site:ro
+      - /home/user/src/kosma-website/deploy/site/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    restart: unless-stopped

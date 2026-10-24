@@ -28,16 +28,26 @@ flutter analyze && flutter test
 flutter build web --release --base-href /
 ```
 
-## Сборка на сервере
+## Сборка и раздача на сервере
 
-watch-server (192.168.192.50), стек `flutter-builder` (Portainer → Stacks): образ
-`ghcr.io/cirruslabs/flutter:3.44.0`, тома `~/src → /src`, `~/site → /site`, кеш pub.
+watch-server (192.168.192.50), два стека в Portainer (конфиги — `deploy/`):
+
+| Стек | Что | Конфиг |
+|---|---|---|
+| `flutter-builder` | только сборка: `ghcr.io/cirruslabs/flutter:3.44.0`, тома `~/src → /src`, `~/site → /site`, кеш pub | `deploy/builder/compose.yml` |
+| `kosma-site` | только раздача: `nginx:1.29.3-alpine`, `~/site` (ro), `127.0.0.1:8082`, SPA-фолбэк на `index.html` | `deploy/site/compose.yml`, `nginx.conf` |
 
 ```bash
-docker exec flutter-builder build-site kosma-website _preview /_preview/
+docker exec flutter-builder build-site kosma-website kosma-website   # → ~/site/kosma-website
+curl -s 127.0.0.1:8082/scanner                                         # отдаёт kosma-site
 ```
 
-`tool/build-site.sh` — `git pull` (если есть доступ), `pub get`, `build web`, атомарная выкладка
-в `~/site/<подкаталог>`. Описание стека — `deploy/builder/compose.yml`.
+`tool/build-site.sh`: `git pull` (если есть доступ — deploy key), `pub get`, `build web`,
+атомарная подмена каталога выкладки. nginx монтирует родительский `~/site`, поэтому новая
+сборка видна сразу, без перезапуска.
+
+Публично (позже): в Caddyfile стека smarthome (127.0.0.1:8081, за Cloudflare Tunnel) —
+`reverse_proxy 127.0.0.1:8082` для всего, кроме `/smart-home/*` (и `/scanner/privacy/`,
+пока статическая политика не перенесена во Flutter).
 
 Шрифты Jost, Golos Text, JetBrains Mono — OFL (`assets/fonts/licenses`).
