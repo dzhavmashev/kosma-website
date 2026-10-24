@@ -5,6 +5,7 @@ import '../i18n.dart';
 import '../theme/tokens.dart';
 import 'block.dart';
 import 'page_scope.dart';
+import 'spinning_mark.dart';
 
 /// Общий каркас всех страниц kosma.tech: шапка (знак, продукты, RU/EN), контент, футер,
 /// кнопка «наверх». Владеет прокруткой страницы — блоки и кнопки берут её из [PageScope].
@@ -82,7 +83,7 @@ class _Header extends StatelessWidget {
                   onTap: () => context.go(lang.href('/')),
                   child: Row(
                     children: [
-                      Image.asset('assets/logo/kosma-mark-dark.png', width: 28, height: 28),
+                      const SpinningMark(size: 28, loop: false),
                       const SizedBox(width: 10),
                       const Text('KOSMA', style: TextStyle(fontFamily: K.display, fontSize: 18, letterSpacing: 5.4)),
                     ],

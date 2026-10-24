@@ -238,6 +238,7 @@ class _ScannerPageState extends State<ScannerPage> {
           PageBlock(
             lang: l,
             anchor: _download,
+            last: true,
             color: K.surfaceDeep,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -36,7 +36,7 @@ class PhoneFrame extends StatelessWidget {
             child: Stack(
               fit: StackFit.expand,
               children: [
-                Image.asset(asset, fit: BoxFit.cover, alignment: Alignment.topCenter, excludeFromSemantics: true),
+                Image.asset(asset, cacheWidth: (width * 3).ceil(), fit: BoxFit.cover, alignment: Alignment.topCenter, excludeFromSemantics: true),
                 ?overlay,
               ],
             ),

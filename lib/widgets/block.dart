@@ -32,6 +32,7 @@ class PageBlock extends StatelessWidget {
     this.grid = false,
     this.topLine = true,
     this.reveal = true,
+    this.last = false,
   });
 
   final Lang lang;
@@ -42,6 +43,9 @@ class PageBlock extends StatelessWidget {
   final bool grid;
   final bool topLine;
   final bool reveal;
+
+  /// Последний блок страницы: кнопки «вниз» нет (дальше только футер).
+  final bool last;
 
   @override
   Widget build(BuildContext context) {
@@ -55,10 +59,11 @@ class PageBlock extends StatelessWidget {
             if (grid) const Positioned.fill(child: CustomPaint(painter: _GridPainter())),
             Band(
               child: Padding(
-                padding: const EdgeInsets.only(top: 80, bottom: 136),
+                padding: EdgeInsets.only(top: 80, bottom: last ? 96 : 136),
                 child: reveal ? Reveal(child: child) : child,
               ),
             ),
+            if (!last)
             Positioned(
               left: 0,
               right: 0,
@@ -168,8 +173,13 @@ class _NextButtonState extends State<NextButton> with SingleTickerProviderStateM
     if (MediaQuery.disableAnimationsOf(context)) {
       _bob.stop();
     } else if (!_bob.isAnimating) {
-      _bob.repeat(reverse: true);
+      _bob.repeat(reverse: true, count: 8); // несколько покачиваний, дальше покой: без вечной анимации
     }
+  }
+
+  void _hoverChanged(bool v) {
+    setState(() => _hover = v);
+    if (v && !_bob.isAnimating && !MediaQuery.disableAnimationsOf(context)) _bob.repeat(reverse: true, count: 4);
   }
 
   @override
@@ -184,8 +194,8 @@ class _NextButtonState extends State<NextButton> with SingleTickerProviderStateM
     label: widget.label,
     child: MouseRegion(
       cursor: SystemMouseCursors.click,
-      onEnter: (_) => setState(() => _hover = true),
-      onExit: (_) => setState(() => _hover = false),
+      onEnter: (_) => _hoverChanged(true),
+      onExit: (_) => _hoverChanged(false),
       child: GestureDetector(
         onTap: widget.onTap,
         child: AnimatedContainer(
@@ -197,11 +207,11 @@ class _NextButtonState extends State<NextButton> with SingleTickerProviderStateM
             color: _hover ? K.lavender900 : K.surface.withValues(alpha: 0.85),
             border: Border.all(color: _hover ? K.accent : K.lineStrong),
           ),
-          child: AnimatedBuilder(
+          child: RepaintBoundary(child: AnimatedBuilder(
             animation: _bob,
             builder: (context, child) => Transform.translate(offset: Offset(0, _bob.value * 4), child: child),
             child: const Icon(Icons.arrow_downward_rounded, size: 20, color: K.text),
-          ),
+          )),
         ),
       ),
     ),

@@ -6,6 +6,7 @@ import '../theme/tokens.dart';
 import '../widgets/block.dart';
 import '../widgets/page_scope.dart';
 import '../widgets/phone_frame.dart';
+import '../widgets/spinning_mark.dart';
 
 /// Корень kosma.tech: бренд, продукты (Сканер, Склад, HR), три направления, связь.
 /// Тексты утверждены по шагам в документе «Контент сайта kosma.tech».
@@ -86,7 +87,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 if (wide) ...[
                   const SizedBox(width: 56),
-                  Image.asset('assets/logo/kosma-mark-dark.png', width: 280, height: 280, semanticLabel: l.tr('Знак Kosma', 'Kosma mark')),
+                  SpinningMark(size: 280, label: l.tr('Знак Kosma', 'Kosma mark')),
                 ],
               ],
             ),
@@ -129,6 +130,7 @@ class _HomePageState extends State<HomePage> {
           PageBlock(
             lang: l,
             anchor: _directions,
+            last: true,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
