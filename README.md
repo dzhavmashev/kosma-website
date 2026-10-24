@@ -42,7 +42,8 @@ docker exec flutter-builder build-site kosma-website kosma-website   # → ~/sit
 curl -s 127.0.0.1:8082/scanner                                         # отдаёт kosma-site
 ```
 
-`tool/build-site.sh`: `git pull` (если есть доступ — deploy key), `pub get`, `build web`,
+`tool/build-site.sh`: `git pull` (клон `~/src/kosma-website` с deploy key `~/.ssh/kosma_website_deploy`,
+read-only, смонтирован в сборщик), `pub get`, `build web`,
 атомарная подмена каталога выкладки. nginx монтирует родительский `~/site`, поэтому новая
 сборка видна сразу, без перезапуска.
 

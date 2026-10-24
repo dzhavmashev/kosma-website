@@ -20,6 +20,9 @@ services:
       - /home/user/src:/src
       - /home/user/site:/site
       - /home/user/src/kosma-website/tool/build-site.sh:/usr/local/bin/build-site:ro
+      # deploy key (read-only) для git pull внутри контейнера — те же пути, что в core.sshCommand клона
+      - /home/user/.ssh/kosma_website_deploy:/home/user/.ssh/kosma_website_deploy:ro
+      - /home/user/.ssh/known_hosts:/home/user/.ssh/known_hosts:ro
       - pub_cache:/pub-cache
     restart: unless-stopped
 
