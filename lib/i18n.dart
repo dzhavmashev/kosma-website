@@ -16,7 +16,7 @@ enum Lang {
 }
 
 /// Рабочий e-mail Kosma. Пока пусто: адрес не заведён — ссылка не показывается.
-const kContactEmail = '';
+const kContactEmail = 'contact@kosma.tech';
 
 /// Общие строки каркаса (шапка, футер, 404). Контент страниц — в lib/content/.
 class S {
