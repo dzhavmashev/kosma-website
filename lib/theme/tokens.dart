@@ -6,8 +6,13 @@ abstract final class K {
   static const lavender300 = Color(0xFFBEBCFE);
   static const lavender500 = Color(0xFF8D7DF0);
   static const lavender600 = Color(0xFF6E5BD8);
+  static const lavender700 = Color(0xFF5140A7);
+  static const lavender900 = Color(0xFF27195E);
   static const neutral50 = Color(0xFFF3F1EC);
   static const neutral400 = Color(0xFFA09E9A);
+  static const neutral500 = Color(0xFF7C7A76);
+  static const neutral600 = Color(0xFF595B5E);
+  static const neutral700 = Color(0xFF414246);
   static const neutral800 = Color(0xFF2A2B2E);
   static const neutral900 = Color(0xFF1E1F23);
   static const neutral950 = Color(0xFF121317);
@@ -18,6 +23,13 @@ abstract final class K {
   static const text = neutral50;
   static const muted = neutral400;
   static const accent = lavender500;
+
+  /// Янтарь — «цвет скана» тёмной темы приложения: рамка, линия скана, счётчик.
+  static const scan = Color(0xFFFFC21A);
+
+  /// Более глубокая подложка (футер, чередующиеся блоки) и усиленная линия.
+  static const surfaceDeep = Color(0xFF0E0F12);
+  static const lineStrong = neutral700;
 
   static const display = 'Jost';
   static const body = 'GolosText';

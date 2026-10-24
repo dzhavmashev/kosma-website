@@ -23,6 +23,7 @@ flutter:
 
   assets:
     - assets/logo/
+    - assets/shots/
   # Шрифты бренда Kosma (OFL, лицензии в assets/fonts/licenses).
   fonts:
     - family: Jost

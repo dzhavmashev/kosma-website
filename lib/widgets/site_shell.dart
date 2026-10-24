@@ -3,9 +3,12 @@ import 'package:go_router/go_router.dart';
 
 import '../i18n.dart';
 import '../theme/tokens.dart';
+import 'block.dart';
+import 'page_scope.dart';
 
-/// Общий каркас всех страниц kosma.tech: шапка (знак, продукты, RU/EN), контент, футер.
-class SiteShell extends StatelessWidget {
+/// Общий каркас всех страниц kosma.tech: шапка (знак, продукты, RU/EN), контент, футер,
+/// кнопка «наверх». Владеет прокруткой страницы — блоки и кнопки берут её из [PageScope].
+class SiteShell extends StatefulWidget {
   const SiteShell({super.key, required this.lang, required this.path, required this.child});
 
   final Lang lang;
@@ -15,26 +18,43 @@ class SiteShell extends StatelessWidget {
   final Widget child;
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    body: CustomScrollView(
-      slivers: [
-        SliverToBoxAdapter(child: _Header(lang: lang, path: path)),
-        SliverToBoxAdapter(child: _Constrained(child: child)),
-        SliverFillRemaining(hasScrollBody: false, child: Align(alignment: Alignment.bottomCenter, child: _Footer(lang: lang))),
-      ],
-    ),
-  );
+  State<SiteShell> createState() => _SiteShellState();
 }
 
-class _Constrained extends StatelessWidget {
-  const _Constrained({required this.child});
-  final Widget child;
+class _SiteShellState extends State<SiteShell> {
+  final _controller = ScrollController();
+  final _footerKey = GlobalKey();
 
   @override
-  Widget build(BuildContext context) => Center(
-    child: ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: K.maxWidth),
-      child: Padding(padding: const EdgeInsets.symmetric(horizontal: K.gutter), child: child),
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => PageScope(
+    controller: _controller,
+    footerKey: _footerKey,
+    child: Scaffold(
+      body: Stack(
+        children: [
+          CustomScrollView(
+            controller: _controller,
+            slivers: [
+              SliverToBoxAdapter(child: _Header(lang: widget.lang, path: widget.path)),
+              SliverToBoxAdapter(child: widget.child),
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: KeyedSubtree(key: _footerKey, child: _Footer(lang: widget.lang)),
+                ),
+              ),
+            ],
+          ),
+          UpButton(lang: widget.lang),
+        ],
+      ),
     ),
   );
 }
@@ -47,10 +67,10 @@ class _Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final s = S(lang);
-    final narrow = MediaQuery.sizeOf(context).width < 640;
+    final narrow = MediaQuery.sizeOf(context).width < 760;
     return DecoratedBox(
       decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: K.line))),
-      child: _Constrained(
+      child: Band(
         child: SizedBox(
           height: 72,
           child: Row(
@@ -74,8 +94,21 @@ class _Header extends StatelessWidget {
                 TextButton(onPressed: () => context.go(lang.href('/scanner')), child: Text(s.scanner)),
                 const SizedBox(width: 4),
                 TextButton(onPressed: null, child: Text('${s.warehouse} · ${s.soon}')),
+                const SizedBox(width: 4),
+                TextButton(onPressed: null, child: Text('${s.hr} · ${s.soon}')),
                 const SizedBox(width: 16),
-              ],
+              ] else
+                PopupMenuButton<String>(
+                  tooltip: s.menu,
+                  icon: const Icon(Icons.menu_rounded),
+                  color: K.surface,
+                  onSelected: (_) => context.go(lang.href('/scanner')),
+                  itemBuilder: (context) => [
+                    PopupMenuItem(value: 'scanner', child: Text(s.scanner)),
+                    PopupMenuItem(enabled: false, child: Text('${s.warehouse} · ${s.soon}')),
+                    PopupMenuItem(enabled: false, child: Text('${s.hr} · ${s.soon}')),
+                  ],
+                ),
               _LangSwitch(lang: lang, path: path),
             ],
           ),
@@ -114,19 +147,51 @@ class _Footer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final s = S(lang);
+    final t = Theme.of(context).textTheme;
     return DecoratedBox(
-      decoration: const BoxDecoration(border: Border(top: BorderSide(color: K.line))),
-      child: _Constrained(
+      decoration: const BoxDecoration(color: K.surfaceDeep, border: Border(top: BorderSide(color: K.line))),
+      child: Band(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 28),
+          padding: const EdgeInsets.symmetric(vertical: 40),
           child: Wrap(
-            spacing: 24,
-            runSpacing: 8,
-            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 56,
+            runSpacing: 28,
             children: [
-              Text('© Kosma · ${s.slogan}', style: Theme.of(context).textTheme.bodySmall),
-              TextButton(onPressed: () => context.go(lang.href('/scanner')), child: Text(s.scanner)),
-              TextButton(onPressed: () => context.go(lang.href('/scanner/privacy')), child: Text(s.privacy)),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('KOSMA', style: TextStyle(fontFamily: K.display, fontSize: 18, letterSpacing: 5.4)),
+                  const SizedBox(height: 10),
+                  Text(s.sloganBoth, style: t.bodySmall),
+                  if (kContactEmail.isNotEmpty) ...[
+                    const SizedBox(height: 6),
+                    SelectableText(kContactEmail, style: t.bodySmall),
+                  ],
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(s.products, style: t.bodySmall),
+                  const SizedBox(height: 8),
+                  InkWell(onTap: () => context.go(lang.href('/scanner')), child: Text(s.scanner, style: t.bodyMedium?.copyWith(color: K.lavender300))),
+                  const SizedBox(height: 6),
+                  Text('${s.warehouse} · ${s.soon}', style: t.bodyMedium?.copyWith(color: K.neutral600)),
+                  const SizedBox(height: 6),
+                  Text('${s.hr} · ${s.soon}', style: t.bodyMedium?.copyWith(color: K.neutral600)),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(s.documents, style: t.bodySmall),
+                  const SizedBox(height: 8),
+                  InkWell(
+                    onTap: () => context.go(lang.href('/scanner/privacy')),
+                    child: Text(s.privacyScanner, style: t.bodyMedium?.copyWith(color: K.lavender300)),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
