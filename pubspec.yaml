@@ -1,0 +1,51 @@
+name: kosma_website
+description: "Сайт kosma.tech (Flutter Web): продукты Kosma, ru/en."
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.12.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
+  go_router: ^18.1.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/logo/
+  # Шрифты бренда Kosma (OFL, лицензии в assets/fonts/licenses).
+  fonts:
+    - family: Jost
+      fonts:
+        - asset: assets/fonts/Jost-400.ttf
+          weight: 400
+        - asset: assets/fonts/Jost-500.ttf
+          weight: 500
+    - family: GolosText
+      fonts:
+        - asset: assets/fonts/GolosText-400.ttf
+          weight: 400
+        - asset: assets/fonts/GolosText-500.ttf
+          weight: 500
+        - asset: assets/fonts/GolosText-600.ttf
+          weight: 600
+        - asset: assets/fonts/GolosText-700.ttf
+          weight: 700
+        - asset: assets/fonts/GolosText-800.ttf
+          weight: 800
+    - family: JetBrainsMono
+      fonts:
+        - asset: assets/fonts/JetBrainsMono-400.ttf
+          weight: 400
+        - asset: assets/fonts/JetBrainsMono-500.ttf
+          weight: 500

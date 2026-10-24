@@ -1,0 +1,25 @@
+# Сборщик Flutter Web сайтов на watch-server (стек «flutter-builder», виден в Portainer).
+# Контейнер держится запущенным; сборка: docker exec flutter-builder build-site <репо> <подкаталог>.
+#   /src  — исходники сайтов (~/src на хосте), /site — выкладка (~/site, её раздаёт Caddy).
+name: flutter-builder
+
+services:
+  flutter:
+    image: ghcr.io/cirruslabs/flutter:3.44.0
+    container_name: flutter-builder
+    command: sleep infinity
+    working_dir: /src
+    environment:
+      # файлы сборки и выкладки отдаются пользователю хоста (контейнер работает от root)
+      HOST_UID: "1000"
+      HOST_GID: "1000"
+      PUB_CACHE: /pub-cache
+    volumes:
+      - /home/user/src:/src
+      - /home/user/site:/site
+      - /home/user/src/kosma-website/tool/build-site.sh:/usr/local/bin/build-site:ro
+      - pub_cache:/pub-cache
+    restart: unless-stopped
+
+volumes:
+  pub_cache:
