@@ -254,7 +254,7 @@ class _ScannerPageState extends State<ScannerPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             PhoneFrame(
-                              asset: 'assets/shots/${s.$1}-${l.name}.png',
+                              asset: 'assets/shots/${s.$1}-${l.name}.webp',
                               label: s.$2,
                               width: 200,
                             ),

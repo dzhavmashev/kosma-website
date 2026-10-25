@@ -294,7 +294,7 @@ class _ScannerCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 20),
                 PhoneFrame(
-                  asset: 'assets/shots/sessions-${l.name}.png',
+                  asset: 'assets/shots/sessions-${l.name}.webp',
                   label: l.tr('Экран сессий', 'Sessions screen'),
                   width: 132,
                 ),

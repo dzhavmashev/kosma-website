@@ -83,7 +83,7 @@ class _ScanDemoState extends State<ScanDemo>
       children: [
         RepaintBoundary(
           child: PhoneFrame(
-            asset: 'assets/shots/summing-${l.name}.png',
+            asset: 'assets/shots/summing-${l.name}.webp',
             label: l.tr(
               'Экран сессии Kosma Сканер',
               'Kosma Scanner session screen',
