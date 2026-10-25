@@ -485,6 +485,13 @@ List<(String, String)> _shots_(Lang l) => [
     'api',
     l.tr('Отправка сессии в вашу систему', 'Send a session to your system'),
   ),
+  (
+    'plan',
+    l.tr(
+      'План / факт: недостача и излишки',
+      'Plan / fact: shortages and surpluses',
+    ),
+  ),
 ];
 
 List<(String, String)> _faq_(Lang l) => [
