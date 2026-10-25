@@ -52,3 +52,11 @@ read-only, смонтирован в сборщик), `pub get`, `build web`,
 пока статическая политика не перенесена во Flutter).
 
 Шрифты Jost, Golos Text, JetBrains Mono — OFL (`assets/fonts/licenses`).
+
+## CI/CD
+
+`.github/workflows/ci.yml`: на каждый push/PR — `flutter analyze`, `flutter test`, `flutter build web` (GitHub-hosted,
+Flutter 3.44.0). После зелёного CI на `main` job `deploy` идёт на self-hosted runner с меткой `kosma-site`
+(watch-server, отдельный каталог `~/actions-runner-kosma`, привязан только к этому репозиторию) и запускает
+`deploy/deploy.sh`: `docker exec flutter-builder build-site kosma-website kosma-website` + проверка 200 у
+`/`, `/scanner`, `/en`, `/scanner/privacy` на `127.0.0.1:8082`. Ручной запуск — `workflow_dispatch`.

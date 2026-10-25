@@ -1,0 +1,37 @@
+# CI: анализ, тесты и сборка Flutter Web на каждый push/PR.
+# CD: после зелёного CI на main — сборка в контейнере flutter-builder на домашнем сервере
+# (self-hosted runner, метка kosma-site) и выкладка в ~/site/kosma-website (раздаёт kosma-site / nginx).
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.44.0
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test
+      - run: flutter build web --release
+
+  deploy:
+    needs: [check]
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    runs-on: [self-hosted, kosma-site]
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash deploy/deploy.sh
