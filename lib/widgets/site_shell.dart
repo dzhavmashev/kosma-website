@@ -80,7 +80,7 @@ class _Header extends StatelessWidget {
     final s = S(lang);
     final narrow = MediaQuery.sizeOf(context).width < 760;
     return DecoratedBox(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         border: Border(bottom: BorderSide(color: K.line)),
       ),
       child: Band(
@@ -142,12 +142,32 @@ class _Header extends StatelessWidget {
                   ],
                 ),
               _LangSwitch(lang: lang, path: path),
+              _ThemeToggle(lang: lang),
             ],
           ),
         ),
       ),
     );
   }
+}
+
+/// Переключатель светлой/тёмной темы (выбор запоминается в браузере).
+class _ThemeToggle extends StatelessWidget {
+  const _ThemeToggle({required this.lang});
+  final Lang lang;
+
+  @override
+  Widget build(BuildContext context) => IconButton(
+    tooltip: K.light
+        ? lang.tr('Тёмная тема', 'Dark theme')
+        : lang.tr('Светлая тема', 'Light theme'),
+    onPressed: () => themeLight.value = !themeLight.value,
+    icon: Icon(
+      K.light ? Icons.dark_mode_outlined : Icons.light_mode_outlined,
+      size: 20,
+      color: K.muted,
+    ),
+  );
 }
 
 class _LangSwitch extends StatelessWidget {
@@ -184,7 +204,7 @@ class _Footer extends StatelessWidget {
     final s = S(lang);
     final t = Theme.of(context).textTheme;
     return DecoratedBox(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: K.surfaceDeep,
         border: Border(top: BorderSide(color: K.line)),
       ),
@@ -223,18 +243,18 @@ class _Footer extends StatelessWidget {
                     onTap: () => context.go(lang.href('/scanner')),
                     child: Text(
                       s.scanner,
-                      style: t.bodyMedium?.copyWith(color: K.lavender300),
+                      style: t.bodyMedium?.copyWith(color: K.link),
                     ),
                   ),
                   const SizedBox(height: 6),
                   Text(
                     '${s.warehouse} · ${s.soon}',
-                    style: t.bodyMedium?.copyWith(color: K.neutral600),
+                    style: t.bodyMedium?.copyWith(color: K.faint),
                   ),
                   const SizedBox(height: 6),
                   Text(
                     '${s.hr} · ${s.soon}',
-                    style: t.bodyMedium?.copyWith(color: K.neutral600),
+                    style: t.bodyMedium?.copyWith(color: K.faint),
                   ),
                 ],
               ),
@@ -247,7 +267,7 @@ class _Footer extends StatelessWidget {
                     onTap: () => context.go(lang.href('/scanner/privacy')),
                     child: Text(
                       s.privacyScanner,
-                      style: t.bodyMedium?.copyWith(color: K.lavender300),
+                      style: t.bodyMedium?.copyWith(color: K.link),
                     ),
                   ),
                 ],

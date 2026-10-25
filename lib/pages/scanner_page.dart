@@ -61,7 +61,7 @@ class _ScannerPageState extends State<ScannerPage> {
                           'KOSMA СКАНЕР · ANDROID · iOS · ТСД',
                           'KOSMA SCANNER · ANDROID · iOS · RUGGED HANDHELDS',
                         ),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontFamily: K.mono,
                           fontSize: 13,
                           letterSpacing: 1.8,
@@ -575,7 +575,7 @@ class _StepCard extends StatelessWidget {
             children: [
               Text(
                 number,
-                style: const TextStyle(
+                style: TextStyle(
                   fontFamily: K.mono,
                   fontSize: 32,
                   color: K.scan,
@@ -622,11 +622,11 @@ class _FeatureCard extends StatelessWidget {
             children: [
               Text(
                 tag,
-                style: const TextStyle(
+                style: TextStyle(
                   fontFamily: K.mono,
                   fontSize: 12,
                   letterSpacing: 1.2,
-                  color: K.lavender300,
+                  color: K.link,
                 ),
               ),
               const SizedBox(height: 8),
@@ -657,10 +657,10 @@ class _PlanCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: pro ? K.lavender700 : K.line),
           gradient: pro
-              ? const LinearGradient(
+              ? LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [K.lavender900, K.surface],
+                  colors: [K.accentSoft, K.surface],
                   stops: [0, 0.6],
                 )
               : null,
@@ -679,7 +679,7 @@ class _PlanCard extends StatelessWidget {
                   child: Text(
                     line,
                     style: t.bodyMedium?.copyWith(
-                      color: pro ? K.lavender300 : K.muted,
+                      color: pro ? K.link : K.muted,
                     ),
                   ),
                 ),

@@ -36,6 +36,7 @@ class PageBlock extends StatelessWidget {
     this.topLine = true,
     this.reveal = true,
     this.last = false,
+    this.glow = false,
   });
 
   final Lang lang;
@@ -50,6 +51,9 @@ class PageBlock extends StatelessWidget {
   /// Последний блок страницы: кнопки «вниз» нет (дальше только футер).
   final bool last;
 
+  /// Лавандовое полупрозрачное свечение под сеткой (первый экран главной, как в макете).
+  final bool glow;
+
   @override
   Widget build(BuildContext context) {
     final target = next ?? PageScope.of(context).footerKey;
@@ -58,14 +62,15 @@ class PageBlock extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: color,
-          border: topLine ? const Border(top: BorderSide(color: K.line)) : null,
+          border: topLine ? Border(top: BorderSide(color: K.line)) : null,
         ),
         child: Stack(
           children: [
             if (grid)
-              const Positioned.fill(
-                child: CustomPaint(painter: _GridPainter()),
+              Positioned.fill(
+                child: CustomPaint(painter: _GridPainter(K.accent)),
               ),
+            if (glow) const Positioned.fill(child: _Glow()),
             Band(
               child: Padding(
                 padding: EdgeInsets.only(top: 80, bottom: last ? 96 : 136),
@@ -91,14 +96,83 @@ class PageBlock extends StatelessWidget {
   }
 }
 
+/// Свечение за заголовком: круг 720 px, радиальный градиент лаванды, «дыхание» 3,2 с (как в макете).
+class _Glow extends StatefulWidget {
+  const _Glow();
+
+  @override
+  State<_Glow> createState() => _GlowState();
+}
+
+class _GlowState extends State<_Glow> with SingleTickerProviderStateMixin {
+  late final AnimationController _c = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 1600),
+  );
+  late final Animation<double> _opacity = Tween(
+    begin: 0.35,
+    end: 0.9,
+  ).animate(CurvedAnimation(parent: _c, curve: Curves.easeInOut));
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (MediaQuery.disableAnimationsOf(context)) {
+      _c.stop();
+      _c.value = 0.5;
+    } else if (!_c.isAnimating) {
+      _c.repeat(reverse: true);
+    }
+  }
+
+  @override
+  void dispose() {
+    _c.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => IgnorePointer(
+    child: ExcludeSemantics(
+      child: Align(
+        alignment: const Alignment(0, -0.2), // центр на 40 % высоты экрана
+        child: OverflowBox(
+          maxWidth: 720,
+          maxHeight: 720,
+          child: RepaintBoundary(
+            child: FadeTransition(
+              opacity: _opacity,
+              child: Container(
+                width: 720,
+                height: 720,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: RadialGradient(
+                    colors: [
+                      K.lavender600.withValues(alpha: 0.28),
+                      K.lavender600.withValues(alpha: 0),
+                    ],
+                    stops: const [0, 0.65],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
 /// Сетка бренда на фоне первого экрана.
 class _GridPainter extends CustomPainter {
-  const _GridPainter();
+  const _GridPainter(this.color);
+  final Color color;
 
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = K.accent.withValues(alpha: 0.07)
+      ..color = color.withValues(alpha: 0.07)
       ..strokeWidth = 1;
     const step = 48.0;
     for (var x = 0.0; x < size.width; x += step) {
@@ -110,7 +184,7 @@ class _GridPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_GridPainter old) => false;
+  bool shouldRepaint(_GridPainter old) => old.color != color;
 }
 
 /// Появление при входе блока в экран: прозрачность и сдвиг вверх, один раз.
@@ -232,7 +306,7 @@ class _NextButtonState extends State<NextButton>
           height: 44,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: _hover ? K.lavender900 : K.surface.withValues(alpha: 0.85),
+            color: _hover ? K.accentSoft : K.surface.withValues(alpha: 0.85),
             border: Border.all(color: _hover ? K.accent : K.lineStrong),
           ),
           child: RepaintBoundary(
@@ -242,7 +316,7 @@ class _NextButtonState extends State<NextButton>
                 offset: Offset(0, _bob.value * 4),
                 child: child,
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.arrow_downward_rounded,
                 size: 20,
                 color: K.text,
@@ -281,13 +355,11 @@ class UpButton extends StatelessWidget {
                 child: Material(
                   color: K.surface,
                   elevation: 6,
-                  shape: const CircleBorder(
-                    side: BorderSide(color: K.lineStrong),
-                  ),
+                  shape: CircleBorder(side: BorderSide(color: K.lineStrong)),
                   child: InkWell(
                     customBorder: const CircleBorder(),
                     onTap: () => scrollToTop(context),
-                    child: const SizedBox(
+                    child: SizedBox(
                       width: 48,
                       height: 48,
                       child: Icon(Icons.arrow_upward_rounded, color: K.text),
@@ -311,7 +383,7 @@ class SectionLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Text(
     text,
-    style: const TextStyle(
+    style: TextStyle(
       fontFamily: K.mono,
       fontSize: 12,
       letterSpacing: 1.7,

@@ -67,8 +67,9 @@ class _SpinningMarkState extends State<SpinningMark>
         dimension: widget.size,
         child: AnimatedBuilder(
           animation: _c,
-          builder: (context, _) =>
-              CustomPaint(painter: _MarkPainter(_ease.transform(_c.value))),
+          builder: (context, _) => CustomPaint(
+            painter: _MarkPainter(_ease.transform(_c.value), K.text, K.accent),
+          ),
         ),
       ),
     );
@@ -84,8 +85,10 @@ class _SpinningMarkState extends State<SpinningMark>
 /// Геометрия бренда (viewBox 100): кольцо r=34, штрих 9; точка r=10 на r=34 от центра;
 /// «разрыв» — круг r=12.5 вокруг точки. В покое точка в верхнем правом углу (−45°).
 class _MarkPainter extends CustomPainter {
-  const _MarkPainter(this.turn);
-  final double turn; // 0..1 — доля полного оборота
+  const _MarkPainter(this.turn, this.ring, this.dotColor);
+  final double turn;
+  final Color ring;
+  final Color dotColor; // 0..1 — доля полного оборота
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -103,14 +106,15 @@ class _MarkPainter extends CustomPainter {
       Paint()
         ..style = PaintingStyle.stroke
         ..strokeWidth = 9
-        ..color = K.text
+        ..color = ring
         ..isAntiAlias = true,
     );
     canvas.drawCircle(dot, 12.5, Paint()..blendMode = BlendMode.clear);
     canvas.restore();
-    canvas.drawCircle(dot, 10, Paint()..color = K.accent);
+    canvas.drawCircle(dot, 10, Paint()..color = dotColor);
   }
 
   @override
-  bool shouldRepaint(_MarkPainter old) => old.turn != turn;
+  bool shouldRepaint(_MarkPainter old) =>
+      old.turn != turn || old.ring != ring || old.dotColor != dotColor;
 }

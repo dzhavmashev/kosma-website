@@ -37,6 +37,7 @@ class _HomePageState extends State<HomePage> {
           PageBlock(
             lang: l,
             anchor: _hero,
+            glow: true,
             next: _products,
             grid: true,
             topLine: false,
@@ -48,7 +49,7 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         'KOSMA.TECH',
                         style: TextStyle(
                           fontFamily: K.mono,
@@ -90,10 +91,8 @@ class _HomePageState extends State<HomePage> {
                           ),
                           OutlinedButton(
                             style: _bigButton.copyWith(
-                              foregroundColor: const WidgetStatePropertyAll(
-                                K.text,
-                              ),
-                              side: const WidgetStatePropertyAll(
+                              foregroundColor: WidgetStatePropertyAll(K.text),
+                              side: WidgetStatePropertyAll(
                                 BorderSide(color: K.lineStrong),
                               ),
                             ),
@@ -231,7 +230,7 @@ class _ScannerCard extends StatelessWidget {
         color: K.surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: K.line),
+          side: BorderSide(color: K.line),
         ),
         child: InkWell(
           borderRadius: BorderRadius.circular(16),
@@ -250,7 +249,7 @@ class _ScannerCard extends StatelessWidget {
                           '01 · СКОРО В GOOGLE PLAY',
                           '01 · COMING SOON TO GOOGLE PLAY',
                         ),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontFamily: K.mono,
                           fontSize: 12,
                           letterSpacing: 1.4,
@@ -276,18 +275,18 @@ class _ScannerCard extends StatelessWidget {
                           'Android · iOS · ТСД',
                           'Android · iOS · Handheld terminals',
                         ),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontFamily: K.mono,
                           fontSize: 12,
-                          color: K.neutral500,
+                          color: K.subtle,
                         ),
                       ),
                       const SizedBox(height: 16),
                       Text(
                         l.tr('Подробнее →', 'Learn more →'),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.w600,
-                          color: K.lavender300,
+                          color: K.link,
                         ),
                       ),
                     ],
@@ -336,11 +335,11 @@ class _ComingCard extends StatelessWidget {
             children: [
               Text(
                 tag,
-                style: const TextStyle(
+                style: TextStyle(
                   fontFamily: K.mono,
                   fontSize: 12,
                   letterSpacing: 1.4,
-                  color: K.neutral500,
+                  color: K.subtle,
                 ),
               ),
               const SizedBox(height: 12),
@@ -348,7 +347,7 @@ class _ComingCard extends StatelessWidget {
               const SizedBox(height: 12),
               Text(
                 text,
-                style: t.bodySmall?.copyWith(fontSize: 15, color: K.neutral500),
+                style: t.bodySmall?.copyWith(fontSize: 15, color: K.subtle),
               ),
             ],
           ),

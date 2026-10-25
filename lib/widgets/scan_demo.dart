@@ -115,7 +115,7 @@ class _ScanDemoState extends State<ScanDemo>
                   children: [
                     Text(
                       '$_total',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontFamily: K.display,
                         fontSize: 34,
                         color: K.scan,
@@ -178,7 +178,7 @@ class _FramePainter extends CustomPainter {
       size.height * 0.3,
     );
     final corner = Paint()
-      ..color = K.scan
+      ..color = K.scanOnScreen
       ..style = PaintingStyle.stroke
       ..strokeWidth = 3;
     const c = 20.0;
@@ -198,9 +198,9 @@ class _FramePainter extends CustomPainter {
     canvas.drawPath(path, corner);
     final y = r.top + 8 + (r.height - 16) * Curves.easeInOut.transform(t);
     final glow = Paint()
-      ..color = K.scan.withValues(alpha: 0.5)
+      ..color = K.scanOnScreen.withValues(alpha: 0.5)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8);
-    final line = Paint()..color = K.scan;
+    final line = Paint()..color = K.scanOnScreen;
     final rect = Rect.fromLTWH(r.left + 8, y - 1.5, r.width - 16, 3);
     canvas.drawRect(rect, glow);
     canvas.drawRect(rect, line);

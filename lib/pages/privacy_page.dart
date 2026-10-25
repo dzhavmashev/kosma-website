@@ -166,7 +166,7 @@ class _DataCard extends StatelessWidget {
         children: [
           Text(
             label.toUpperCase(),
-            style: t.labelSmall?.copyWith(color: K.lavender300),
+            style: t.labelSmall?.copyWith(color: K.link),
           ),
           const SizedBox(height: 4),
           Text(value, style: t.bodyMedium),
